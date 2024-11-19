@@ -17,35 +17,45 @@ import troy.autofish.scheduler.AutofishScheduler;
 
 public class FabricModAutofish implements ClientModInitializer {
 
-    private static FabricModAutofish instance;
-    private Autofish autofish;
-    private AutofishScheduler scheduler;
-    private KeyBinding autofishGuiKey;
-    private ConfigManager configManager;
+    private static FabricModAutofish instance; // Singleton instance
+    private Autofish autofish; // The Autofisher logic
+    private AutofishScheduler scheduler; // Scheduler for managing tasks
+    private KeyBinding autofishGuiKey; // Keybinding for opening the GUI
+    private ConfigManager configManager; // Configuration manager
 
     @Override
     public void onInitializeClient() {
-
         if (instance == null) instance = this;
 
-        //Create ConfigManager
+        // Initialize ConfigManager with hardcoded values
         this.configManager = new ConfigManager(this);
-        //Register Keybinding
-        autofishGuiKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.autofish.open_gui", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V, "Autofish"));
-        //Register Tick Callback
-        ClientTickEvents.END_CLIENT_TICK.register(this::tick);
-        //Create Scheduler instance
-        this.scheduler = new AutofishScheduler(this);
-        //Create Autofisher instance
-        this.autofish = new Autofish(this);
 
+        // Register Keybinding
+        autofishGuiKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.autofish.open_gui", // Keybinding ID
+            InputUtil.Type.KEYSYM,  // Keybinding type
+            GLFW.GLFW_KEY_V,        // Default key (V)
+            "Autofish"              // Category
+        ));
+
+        // Register Tick Callback
+        ClientTickEvents.END_CLIENT_TICK.register(this::tick);
+
+        // Create Scheduler instance
+        this.scheduler = new AutofishScheduler(this);
+
+        // Create Autofisher instance
+        this.autofish = new Autofish(this);
     }
 
+    // Called every client tick
     public void tick(MinecraftClient client) {
-        if (this.autofish != null){
+        if (this.autofish != null) {
             if (autofishGuiKey.wasPressed()) {
+                // Open the Autofish GUI screen
                 client.setScreen(AutofishScreenBuilder.buildScreen(this, client.currentScreen));
             }
+            // Handle tick logic for autofish and scheduler
             autofish.tick(client);
             scheduler.tick(client);
         }
@@ -72,22 +82,27 @@ public class FabricModAutofish implements ClientModInitializer {
         autofish.tickFishingLogic(owner, ticksCatchable);
     }
 
+    // Singleton accessor for the mod instance
     public static FabricModAutofish getInstance() {
         return instance;
     }
 
+    // Accessor for Autofish logic
     public Autofish getAutofish() {
         return autofish;
     }
 
+    // Accessor for the configuration manager
     public ConfigManager getConfigManager() {
         return configManager;
     }
 
+    // Accessor for the Config instance (uses hardcoded values)
     public Config getConfig() {
         return configManager.getConfig();
     }
 
+    // Accessor for the AutofishScheduler
     public AutofishScheduler getScheduler() {
         return scheduler;
     }
