@@ -11,9 +11,9 @@ public class Config {
     @Expose boolean persistentMode = false;
     @Expose boolean useSoundDetection = false;
     @Expose boolean forceMPDetection = false;
-    @Expose long recastDelay = 1500;
-    @Expose long randomPercent = 50;
-    @Expose long reelInDelay = 1;
+    @Expose long recastDelay = 2580;
+    @Expose long randomPercent = 65;
+    @Expose long reelInDelay = 1405;
     @Expose String clearLagRegex = "\\[ClearLag\\] Removed [0-9]+ Entities!";
 
     public boolean isAutofishEnabled() {
