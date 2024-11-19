@@ -5,7 +5,7 @@ XPlus Autofish is a temp update of [MrTroot's Autofish mod](https://www.cursefor
 In short, just cast the fishing rod into the water once, and it will automatically reel in at the correct time and recast after a couple second wait. You can open the config screen of the mod via hotkey (V by default).
 
 ### Download
-
+1
 You can download the mod from:
 
 | Link type  | Link                                                         |
